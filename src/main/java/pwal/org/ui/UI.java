@@ -1,14 +1,18 @@
 package pwal.org.ui;
 
+import pwal.org.ui.enums.ButtonType;
+import pwal.org.ui.enums.Operator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class UI {
-    private NumPadButtonClickListener numPadButtonClickListener;
-    private JLabel resultArea;
+    private final ButtonClickListener numPadButtonClickListener;
+    private final JLabel resultArea;
+    private ButtonState previousButton;
 
-    public UI(NumPadButtonClickListener numPadButtonClickListener){
+    public UI(ButtonClickListener numPadButtonClickListener){
         this.numPadButtonClickListener = numPadButtonClickListener;
         resultArea = new JLabel();
         this.create();
@@ -33,6 +37,11 @@ public class UI {
         this.generateNumpadButtons().forEach(numPadContainer::add);
         frame.add(numPadContainer);
 
+        Container operatorContainer = new Container();
+        operatorContainer.setLayout(new GridLayout(0,2));
+        this.generateOperatorButtons().forEach(operatorContainer::add);
+        frame.add(operatorContainer);
+
 
         // Make the frame visible
         frame.setVisible(true);
@@ -42,17 +51,34 @@ public class UI {
     private  ArrayList<JButton> generateNumpadButtons(){
         ArrayList<JButton> numButtons = new ArrayList<>();
         for(int i =0; i<10; i++){
-            JButton button = new JButton();
-            button.setText(String.valueOf(i));
-            button.setName(String.valueOf(i));
-
-
+            JButton button = this.createButton(String.valueOf(i));
             button.addActionListener(_ -> {
-                int result = numPadButtonClickListener.onButtonClick(Integer.parseInt(button.getName()));
+                String buttonName = button.getName();
+                String result =  numPadButtonClickListener.onButtonClick(new ButtonState(ButtonType.NUMBER, buttonName));
                 resultArea.setText(String.valueOf(result));
             });
             numButtons.add(button);
         }
         return numButtons;
+    }
+
+    private ArrayList<JButton> generateOperatorButtons(){
+        ArrayList<JButton> numButtons = new ArrayList<>();
+        for(Operator operator: Operator.values()){
+            JButton button = createButton(operator.getLabel());
+            button.addActionListener(_ -> {
+                        String buttonName = button.getName();
+                        numPadButtonClickListener.onButtonClick(new ButtonState(ButtonType.OPERATOR, buttonName));
+                    });
+            numButtons.add(button);
+        }
+        return numButtons;
+    }
+
+    private JButton createButton(String value){
+        JButton button = new JButton();
+        button.setText(String.valueOf(value));
+        button.setName(String.valueOf(value));
+        return button;
     }
 }

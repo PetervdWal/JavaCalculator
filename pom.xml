@@ -14,6 +14,21 @@
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <dependencies>
+        <!-- JUnit 5 dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -25,7 +40,7 @@
                 <archive>
                     <manifest>
                         <!-- Specify the main class for the executable JAR -->
-                        <mainClass>pwal.org.Calculator</mainClass>
+                        <mainClass>pwal.org.Main</mainClass>
                     </manifest>
                 </archive>
             </configuration>
