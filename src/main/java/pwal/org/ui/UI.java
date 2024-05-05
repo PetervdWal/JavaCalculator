@@ -1,18 +1,20 @@
-package pwal.org;
+package pwal.org.ui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class UI {
+    private NumPadButtonClickListener numPadButtonClickListener;
 
-    UI(){
+    public UI(NumPadButtonClickListener numPadButtonClickListener){
+        this.numPadButtonClickListener = numPadButtonClickListener;
         this.create();
     }
 
     private void create(){
         // Create the JFrame
-        JFrame frame = new JFrame("pwal/org");
+        JFrame frame = new JFrame("Calculator");
 
         // Set the size of the JFrame
         frame.setSize(400, 300);
@@ -40,6 +42,10 @@ public class UI {
         for(int i =0; i<10; i++){
             JButton button = new JButton();
             button.setText(String.valueOf(i));
+            button.setName(String.valueOf(i));
+
+
+            button.addActionListener(_ -> numPadButtonClickListener.onButtonClick(Integer.parseInt(button.getName())));
             numButtons.add(button);
         }
         return numButtons;
