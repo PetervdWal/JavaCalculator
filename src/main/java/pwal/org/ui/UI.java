@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 public class UI {
     private NumPadButtonClickListener numPadButtonClickListener;
+    private JLabel resultArea;
 
     public UI(NumPadButtonClickListener numPadButtonClickListener){
         this.numPadButtonClickListener = numPadButtonClickListener;
+        resultArea = new JLabel();
         this.create();
     }
 
@@ -23,7 +25,7 @@ public class UI {
 
         Container inputContainer = new Container();
         inputContainer.setLayout(new GridLayout(0,1));
-        inputContainer.add(new JLabel("hello"));
+        inputContainer.add(resultArea);
         frame.add(inputContainer);
 
         Container numPadContainer = new Container();
@@ -45,7 +47,10 @@ public class UI {
             button.setName(String.valueOf(i));
 
 
-            button.addActionListener(_ -> numPadButtonClickListener.onButtonClick(Integer.parseInt(button.getName())));
+            button.addActionListener(_ -> {
+                int result = numPadButtonClickListener.onButtonClick(Integer.parseInt(button.getName()));
+                resultArea.setText(String.valueOf(result));
+            });
             numButtons.add(button);
         }
         return numButtons;

@@ -1,5 +1,5 @@
 package pwal.org.ui;
 
 public interface NumPadButtonClickListener {
-    void onButtonClick(int value);
+    int onButtonClick(int value);
 }
